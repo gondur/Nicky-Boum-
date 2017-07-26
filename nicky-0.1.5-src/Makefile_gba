@@ -1,0 +1,33 @@
+
+LIBGBA_DIR = C:/prog/libs/libgba-20060209
+GBA_CFLAGS = -I$(LIBGBA_DIR)/include
+GBA_LIBS = -L$(LIBGBA_DIR)/lib -lgba
+
+#DEFINES = -DSYS_LITTLE_ENDIAN -DNICKY_GBA_VERSION -DNICKY_DEBUG
+DEFINES = -DSYS_LITTLE_ENDIAN -DNICKY_GBA_VERSION -DNDEBUG
+
+CC = arm-elf-gcc
+CFLAGS = -O3 -Wall -Wuninitialized -funroll-loops -ffast-math -mthumb -mthumb-interwork
+LDFLAGS = -mthumb-interwork
+
+OBJDIR = obj/gba
+
+SRCS = fileio_gba.c game.c input.c main.c mixer.c player_mod.c resource.c \
+	sequence.c sound.c staticres.c systemstub_gba.c util.c
+
+OBJS = $(SRCS:.c=.o)
+DEPS = $(SRCS:.c=.d)
+
+nicky_boum.gba: $(addprefix $(OBJDIR)/, $(OBJS))
+	$(CC) $(LDFLAGS) -specs=gba.specs -o $(OBJDIR)/nicky_boum.elf $^ $(GBA_LIBS)
+	arm-elf-objcopy -v -O binary $(OBJDIR)/nicky_boum.elf $(OBJDIR)/nicky_boum_temp.gba
+	gbafix -tNickyBoum -cHome -m0 -r1 $(OBJDIR)/nicky_boum_temp.gba
+	tools/make_gba_rom $(OBJDIR)/nicky_boum_temp.gba tools/nicky_boum_gba.data nicky_boum.gba
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(GBA_CFLAGS) $(DEFINES) -MMD -c $< -o $@
+
+clean:
+	rm -f $(OBJDIR)/*.o $(OBJDIR)/*.d $(OBJDIR)/nicky_boum.elf $(OBJDIR)/nicky_boum_temp.gba
+
+-include $(addprefix $(OBJDIR)/, $(DEPS))

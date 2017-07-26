@@ -1,0 +1,29 @@
+
+SDL_CFLAGS = `sdl-config --cflags`
+SDL_LIBS = `sdl-config --libs`
+
+#DEFINES = -DSYS_LITTLE_ENDIAN -DNICKY_SDL_VERSION -DNICKY_DEBUG
+DEFINES = -DSYS_LITTLE_ENDIAN -DNICKY_SDL_VERSION -DNDEBUG
+
+CC = gcc
+CFLAGS = -g -O -std=c89 -pedantic -Wall -Wuninitialized
+
+OBJDIR = obj/sdl
+
+SRCS = fileio_std.c game.c input.c main.c mixer.c player_mod.c resource.c \
+	scaler.c sequence.c sound.c sqx_decoder.c staticres.c systemstub_sdl.c \
+	util.c
+
+OBJS = $(SRCS:.c=.o)
+DEPS = $(SRCS:.c=.d)
+
+nicky: $(addprefix $(OBJDIR)/, $(OBJS))
+	$(CC) -o $@ $^ $(SDL_LIBS)
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(SDL_CFLAGS) $(DEFINES) -MMD -c $< -o $@
+
+clean:
+	rm -f $(OBJDIR)/*.o $(OBJDIR)/*.d
+
+-include $(addprefix $(OBJDIR)/, $(DEPS))

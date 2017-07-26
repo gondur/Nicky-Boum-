@@ -1,0 +1,93 @@
+
+Nicky Boum SDL/GBA README
+Release version: 0.1.5 (Mar 15 2006)
+-------------------------------------------------------------------------------
+
+
+About:
+------
+
+Nicky Boum is a classic platformer game initially designed for the Amiga. The
+game was published my Microids in 1992 and was also ported to the Atari ST and
+PC EGA platforms.
+
+This project aims to rewrite the original engine of the game and requires the
+original datafiles.
+
+This rewrite is based on the reversing of the Amiga and PC versions.
+
+
+Requirements:
+-------------
+
+You need the original DOS version data files. The list is :
+
+	*.BLK
+	*.CDG
+	*.REF
+	*.SPR
+
+You also need some extra datafiles which can be downloaded from the project 
+webpage.
+
+
+Running the SDL version:
+------------------------
+
+Download the extra datafiles package and extract its contents to the directory
+containing the original files.
+
+By default, the engine will try to load the game data files from the current
+directory. You can change that by using the command line options.
+
+The game keys are :
+
+	Arrow Keys   move Nicky
+	Space/Ctrl   action button
+	'i'          toggle inventory display
+	'p'          pause the game
+	F1           cheat mode, gives you all bonuses
+	F2           cheat mode, jumps to the next level
+
+
+Running the GBA version:
+-------------------------
+
+The game keys are :
+
+	Keypad       move Nicky
+	A/B          action button
+	Select       toggle inventory display
+	Start        pause the game
+	L            cheat mode, gives you all bonuses
+	R            cheat mode, jumps to the next level
+
+
+Missing features:
+-----------------
+
+The game logic is fully rewritten, so the game should be completable. Yet, this
+rewrite isn't complete as there are still some features that I plan to add :
+
+	- add a highscore screen
+	- add a level selection/password screen
+	- enable in-game music playback for GBA version
+
+
+Credits:
+--------
+
+Dominico Manfredi and Alain Lambin, the original authors of the game.
+
+
+Contact:
+--------
+
+Gregory Montoir, cyx@users.sourceforge.net
+
+
+URLs:
+-----
+
+[1] http://hol.abime.net/964
+[2] http://www.amigachapterone.com/amiga/tests/nickyboum.htm
